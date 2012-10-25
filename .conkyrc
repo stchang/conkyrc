@@ -1,0 +1,101 @@
+# UBUNTU-CONKY
+# A comprehensive conky script, configured for use on
+# Ubuntu / Debian Gnome, without the need for any external scripts.
+#
+# Based on conky-jc and the default .conkyrc.
+# INCLUDES:
+# - tail of /var/log/messages 
+# - netstat connections to your computer
+#
+# -- Pengo (conky@pengo.us)
+#
+
+# Create own window instead of using desktop (required in nautilus)
+own_window yes
+own_window_type override
+own_window_transparent yes
+own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager
+
+# Use double buffering (reduces flicker, may not work for everyone)
+double_buffer yes
+
+# fiddle with window
+use_spacer none
+use_xft yes
+xftfont Vera Sans:size=8
+
+# Update interval in seconds
+update_interval 3.0
+
+# Minimum size of text area
+minimum_size 650
+maximum_width 650
+
+# Draw shades?
+draw_shades no
+
+# Text stuff
+draw_outline no # amplifies text if yes
+draw_borders no
+#font arial
+uppercase no # set to yes if you want all text to be in uppercase
+
+# Stippled borders?
+stippled_borders 3
+
+# border margins
+#border_margin 9
+
+# border width
+border_width 10
+
+# Default colors and also border colors, grey90 == #e5e5e5
+default_color grey
+
+own_window_colour brown
+own_window_transparent yes
+
+# Text alignment, other possible values are commented
+#alignment top_left
+#alignment top_right
+alignment bottom_left
+#alignment bottom_right
+
+# Gap between borders of screen and text
+gap_x 70
+gap_y 50
+
+# stuff after 'TEXT' will be formatted on screen
+
+TEXT
+${color green}SYSTEM  ($sysname $kernel - Ubuntu 12.04.1 LTS precise) ${hr 2}$color
+Uptime:$color $uptime        Load:$color $loadavg        $processes processes ($running_processes running)        Logged In: $user_number
+
+${color green}CPU  (Intel Core2 Quad Q6600 @ $freq_g GHz)${hr 2}$color
+#CPU Temp: ${platform w83627ehf.656 temp 1}C        MB Temp: ${platform w83627ehf.656 temp 2}C        CPU Fan: ${platform w83627ehf.656 fan 2} RPM        Case Fan: ${platform w83627ehf.656 fan 1} RPM        PSU Fan: ${platform w83627ehf.656 fan 3} RPM
+
+
+${color orange}Core 1:$color${goto 70}${platform coretemp.0 temp 2}C${goto 139}${cpu cpu1}%${goto 175}${color orange}Core 2:$color${goto 240}${platform coretemp.0 temp 3}C${goto 303}${cpu cpu2}%${goto 340}${color orange}Core 3:$color${goto 405}${platform coretemp.0 temp 4}C${goto 468}${cpu cpu3}%${goto 505}${color orange}Core 4:$color${goto 570}${platform coretemp.0 temp 5}C${goto 635}${cpu cpu4}%
+${cpugraph cpu1 40,150 000000 ffffff}${goto 175}${cpugraph cpu2 40,150 000000 ffffff}${goto 340}${cpugraph cpu3 40,150 000000 ffffff}${goto 505}${cpugraph cpu4 40,150 000000 ffffff}
+
+${color blue}${goto 80}CPU USAGE${goto 400}MEMORY USAGE$color
+NAME${goto 125}CPU%${goto 175}MEM%${goto 300}NAME${goto 400}MEM%${goto 455}MEM (PHY)${goto 525}MEM (VIRT)
+${top name 1}${goto 125}${top cpu 1}${goto 175}${top mem 1}${goto 300}${top_mem name 1}${goto 400}${top_mem mem 1}${goto 455}${top_mem mem_res 1}${goto 525}${top_mem mem_vsize 1}
+${top name 2}${goto 125}${top cpu 2}${goto 175}${top mem 2}${goto 300}${top_mem name 2}${goto 400}${top_mem mem 2}${goto 455}${top_mem mem_res 2}${goto 525}${top_mem mem_vsize 2}
+${top name 3}${goto 125}${top cpu 3}${goto 175}${top mem 3}${goto 300}${top_mem name 3}${goto 400}${top_mem mem 3}${goto 455}${top_mem mem_res 3}${goto 525}${top_mem mem_vsize 3}
+${top name 4}${goto 125}${top cpu 4}${goto 175}${top mem 4}${goto 300}${top_mem name 4}${goto 400}${top_mem mem 4}${goto 455}${top_mem mem_res 4}${goto 525}${top_mem mem_vsize 4}
+${top name 5}${goto 125}${top cpu 5}${goto 175}${top mem 5}${goto 300}${top_mem name 5}${goto 400}${top_mem mem 5}${goto 455}${top_mem mem_res 5}${goto 525}${top_mem mem_vsize 5}
+
+${color green}MEMORY / DISK ${hr 2}$color
+RAM:${goto 100}$mem / $memmax${goto 285}$memperc%${goto 340}Swap:${goto 450}$swap / $swapmax${goto 620}$swapperc%
+${membar 8,300}${goto 340}${swapbar 8,300}
+
+Root:${goto 80}${fs_used /} / ${fs_size /}${goto 220}(${fs_free /} free)${goto 340}Home:${goto 410}${fs_used /home/stchang/} / ${fs_size /home/stchang/}${goto 550}(${fs_free /home/stchang/} free) 
+${fs_bar 8,300 /}${goto 340}${fs_bar 8,300 /home/stchang/}
+Movies:${goto 75}${fs_used /videos/movies/} / ${fs_size /videos/movies/}${goto 220}(${fs_free /videos/movies/} free)${goto 340}TV:${goto 400}${fs_used /videos/tv/} / ${fs_size /videos/tv/}${goto 550}(${fs_free /videos/tv/} free) 
+${fs_bar 8,300 /videos/movies/}${goto 340}${fs_bar 8,300 /videos/tv/}
+
+${color green}NETWORK  (${addr eth0}) ${hr 2}$color
+Down: ${downspeedf eth0} k/s${goto 120}Total: ${totaldown eth0}${goto 240}Inbound: ${tcp_portmon 1 32767 count}${goto 340}Up: ${upspeedf eth0} k/s${goto 450}Total: ${totalup eth0}${goto 560}Outbound: ${tcp_portmon 32768 61000 count}
+${downspeedgraph eth0 40,300 000000 ffffff}${goto 340}${upspeedgraph eth0 40,300 000000 ffffff}
+
