@@ -62,7 +62,7 @@ alignment bottom_left
 #alignment bottom_right
 
 # Gap between borders of screen and text
-gap_x 70
+gap_x 55
 gap_y 50
 
 # stuff after 'TEXT' will be formatted on screen
